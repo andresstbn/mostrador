@@ -71,6 +71,26 @@ class Reclamo(Modelo):
     estado: Literal["abierto", "cerrado"]
 
 
+class Reembolso(Modelo):
+    id: str
+    numero_pedido: str
+    cliente_id: str
+    fecha: date
+    monto: int
+    motivo: str
+    # "solicitado": espera la aprobación de un asesor. "aprobado": ya se puede pagar.
+    estado: Literal["solicitado", "aprobado"]
+
+
+class Escalamiento(Modelo):
+    id: str
+    cliente_id: str
+    numero_pedido: str | None = None
+    fecha: date
+    motivo: str
+    resumen: str
+
+
 class ErrorDeDatos(Exception):
     """Los datos de un archivo no tienen la estructura esperada."""
 
@@ -114,12 +134,28 @@ def leer_reclamos() -> list[Reclamo]:
     return _leer("reclamos.json", Reclamo)
 
 
+def leer_reembolsos() -> list[Reembolso]:
+    return _leer("reembolsos.json", Reembolso)
+
+
+def leer_escalamientos() -> list[Escalamiento]:
+    return _leer("escalamientos.json", Escalamiento)
+
+
 def guardar_pedidos(pedidos: list[Pedido]) -> None:
     _guardar("pedidos.json", pedidos)
 
 
 def guardar_reclamos(reclamos: list[Reclamo]) -> None:
     _guardar("reclamos.json", reclamos)
+
+
+def guardar_reembolsos(reembolsos: list[Reembolso]) -> None:
+    _guardar("reembolsos.json", reembolsos)
+
+
+def guardar_escalamientos(escalamientos: list[Escalamiento]) -> None:
+    _guardar("escalamientos.json", escalamientos)
 
 
 def leer_politicas() -> str:
@@ -131,6 +167,8 @@ def validar_todo() -> None:
     leer_clientes()
     leer_pedidos()
     leer_reclamos()
+    leer_reembolsos()
+    leer_escalamientos()
 
 
 def restablecer() -> None:

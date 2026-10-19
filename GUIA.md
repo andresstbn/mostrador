@@ -8,9 +8,11 @@ La base ya resuelve lo mecánico: hablar con el modelo, ejecutar herramientas, g
 
 ## 1. Crea tu repositorio y abre el codespace
 
-1. En la página de este repositorio haz clic en **Use this template** y luego en **Create a new repository**. Solo una persona del grupo lo crea, en su cuenta.
+1. En la página de este repositorio haz clic en **Use this template** y luego en **Create a new repository**. Solo una persona del grupo lo crea, en su cuenta, y lo deja como **Public** (público).
 2. En el repositorio nuevo entra a **Settings → Collaborators** y agrega a tus compañeros de grupo y al profesor.
 3. Vuelve a la pestaña **Code**, abre la pestaña **Codespaces** y haz clic en **Create codespace on main**.
+
+Como el repositorio es público, cualquier persona en internet puede leer todos sus archivos y también su historial: cada commit que hayas hecho. Por eso la credencial de tu grupo nunca puede quedar escrita en un archivo, ni siquiera por un momento. Si la subes en un commit y en el siguiente la borras, sigue visible en el commit anterior. En ese caso avísale al profesor para que la revoque. En la sección 2 ves dónde va la credencial, y `python -m pytest` incluye una prueba que falla si encuentra algo con forma de credencial en tus archivos.
 
 Un codespace es un computador en la nube con el proyecto listo, que usas desde el navegador. La primera vez tarda unos minutos porque instala las dependencias. Si cierras la pestaña, el codespace queda guardado y puedes volver a él desde la misma pestaña **Codespaces** del repositorio.
 
@@ -66,7 +68,7 @@ Lee la base completa antes de escribir código. Son pocos archivos:
 | `agente/instrucciones.md` | Las instrucciones del agente. Está casi vacío: lo escribes tú. |
 | `agente/herramientas/registro.py` | Cómo se declara una herramienta. Lee el comentario del inicio. |
 | `agente/herramientas/ejemplo.py` | Una herramienta completa de ejemplo: `consultar_politica`. |
-| `tienda/datos/` | Clientes, pedidos, reclamos y la política de la tienda. |
+| `tienda/datos/` | Clientes, pedidos, reclamos, reembolsos, escalamientos y la política de la tienda. Los dos últimos empiezan vacíos: los llenan tus herramientas. |
 | `tienda/repositorio.py` | Lee y guarda los datos, y revisa que tengan la estructura correcta. |
 | `web/` | El servidor y la página. |
 | `evaluacion/` | El ejecutor de escenarios. |
@@ -116,6 +118,8 @@ python -m pytest
 ```
 
 Mira `pruebas/test_ejemplo.py` para ver cómo se llama una herramienta directamente.
+
+Cada prueba empieza con los datos restablecidos (lo hace `pruebas/conftest.py`), así que, igual que con los escenarios, los cambios que hayas hecho a mano en `tienda/datos/` se pierden al correr las pruebas.
 
 ## 8. Entrega con un pull request
 
