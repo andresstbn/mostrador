@@ -55,6 +55,14 @@ def verificar(escenario: dict, traza: list[dict]) -> list[str]:
     return fallas
 
 
+def _describir(paso: dict) -> str:
+    # Nombre de la herramienta y, si devolvió error, el mensaje: ayuda a entender por qué falló.
+    resultado = paso["resultado"]
+    if isinstance(resultado, dict) and "error" in resultado:
+        return f"{paso['herramienta']} (error: {resultado['error']})"
+    return paso["herramienta"]
+
+
 def ejecutar_una_vez(escenario: dict) -> tuple[list[str], list[dict], Sesion]:
     repositorio.restablecer()
     sesion = Sesion(cliente_id=escenario["cliente"])
@@ -89,7 +97,7 @@ def main():
             total_tokens[1] += sesion.tokens_salida
             print(f"{escenario['nombre']} [{i}/{opciones.n}]: {'OK' if not fallas else 'FALLA'}")
             if fallas:
-                herramientas = ", ".join(p["herramienta"] for p in traza) or "ninguna"
+                herramientas = ", ".join(_describir(p) for p in traza) or "ninguna"
                 detalle.append(f"- **{escenario['nombre']}**, ejecución {i}: {'; '.join(fallas)}. Herramientas usadas: {herramientas}.")
             else:
                 aciertos += 1
